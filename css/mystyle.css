@@ -1,0 +1,269 @@
+*{ margin:0; padding:0;}
+
+@font-face {
+	font-family: 'icomoon';
+	src:local('icommon'),url('../Assets/Fonts/icomoon.ttf?ipfwv1') format('truetype'),;
+	src:url('../Assets/Fonts/icomoon.eot?ipfwv1');
+	src:url('../Assets/Fonts/icomoon.eot?#iefixipfwv1') format('embedded-opentype'),
+	url('../Assets/Fonts/icomoon.woff?ipfwv1') format('woff'),
+	url('../Assets/Fonts/icomoon.svg?ipfwv1#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+body
+{
+	background-image: url("../images/background.png");
+	background-repeat: repeat-y;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+	font-size:36px;
+	font-family: arial,'icomoon';
+}
+h1{
+	font-weight: 400;
+	font-size: 40px;
+}
+
+
+
+/*----header stuff---*/
+
+header{
+	padding-left:150px;
+		height:200px;
+		width: 1120px;
+		background-color: rgba(0, 0, 0, 0.65);
+
+}
+
+div.page
+{
+	position: absolute;
+	top: 200px;
+	left:200px;
+	height: 400px;
+	width: 800px;
+}
+div#add_user
+{
+	float:left;
+	margin: 20px;
+	background-image: url('../Assets/addUser350px.png');
+	height:350px;
+	width: 350px;
+}
+div#create_group
+{
+	float:right;
+	margin: 20px;
+	background-image: url('../Assets/addGroup350px.png');
+	height:350px;
+	width: 350px;
+}
+div#first
+{
+	font-family: 'icomoon' ,arial;
+	color:white;
+}
+div
+div#add_user:hover,div#create_group:hover,div#submit_profile:hover
+{
+	opacity:0.8;
+}
+div#add_user:active,div#create_group:active,div#submit_profile:active
+{
+	transform:scale(0.98,0.98);
+	-ms-transform:scale(0.98,0.98); /* IE 9 */
+	-moz-transform:scale(0.98,0.98); /* Firefox */
+	-webkit-transform:scale(0.98,0.98); /* Safari and Chrome */
+	-o-transform:scale(0.98,0.98); /* Opera */
+}
+input
+{
+	font-size: 20px;
+}
+div.title
+{
+	font-family:'icomoon' ,arial;
+	font-size:50px;
+}
+
+
+p#icon
+{
+	font-size: 200px;
+	top:100px;
+	left:150px;
+	position:relative;
+}
+p#add_user,p#create_group
+{
+	top:-150px;
+	left:20px;
+	position: relative;
+}
+div.profile
+{
+	width:500px;
+}
+select
+{
+	font-size: 50px;
+	margin: 10px;
+	margin-left: 0px;
+	padding:5px;
+	height:40px;
+	width:155px;
+}
+div#submit1
+{
+	margin-top: 50%;
+	max-width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 50%;
+	height:auto;
+	text-align: center;
+	font-size: 50px;
+}
+span#return_from_user,span#return_from_problems,span#return_from_group,span#continue_from_user,span#continue_from_problems,span#continue_from_group
+{
+	padding:5px;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 10px;
+	background-color: grey;
+}
+div#submit2
+{
+	position: absolute;
+	left:300px;
+	bottom: 0px;
+	font-size: 50px;
+}
+div#submit3
+{
+	position:relative;
+	left:200px;
+	font-size: 50px;
+}
+
+tr,td
+{
+	align:middle;
+}
+div.tile1,div.tile2
+{
+	margin:10px;
+	margin-left:-5px;
+	margin-right: 45px;
+	background: #646464;
+	width: 220px;
+	height: 60px;
+	text-align: left center;
+	padding-left: 5px;
+	font-size: 16px;
+	float:left;
+}
+div#eee
+{
+	
+
+}
+span#rrr
+{
+	position:relative;
+	top:-64px;
+	left:162px;
+	padding: 9px;
+	background: #383838;
+	color:white;
+	font-family: 'icomoon';
+	font-size: 40px;
+	line-height: 80px;
+	text-align: center;
+	height:80px;
+	width: 80px;
+}
+div#alert
+{
+	position:absolute;
+	top:100px;
+	right:0px;
+	height:60px;
+	width:260px;
+	background-color: #444444;
+	color:white;
+	padding: 20px;
+	font-size: 18px;
+}
+div.clearfloat:after
+{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden; 
+}
+
+
+
+/*Footer*/
+
+footer{
+	height: 250px;
+	padding-top: 75px;
+
+
+}
+
+footer p{
+	color: #CCCCCC;
+	font-size: .75rem;
+	margin: 0 0 5 20px;
+	letter-spacing: .05rem;
+}
+
+footer img{
+	width: 30px;
+	height: 30px;
+	opacity: .80;
+}
+
+footer ul{
+	padding: 0;
+	margin: 0 0 0 3rem;
+	letter-spacing: .05rem;
+
+}
+
+footer li{
+	font-size: .8rem;
+	margin-bottom: 5px;
+}
+
+#line{
+	width: 100%;
+	height: 55%;
+	border-right: 1px solid #808080;
+}
+
+ /* Hides from IE-mac \*/
+* html .clearfloat {height: 1%;}

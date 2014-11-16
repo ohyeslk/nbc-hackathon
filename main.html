@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="./js/knockout.js"></script>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+
+	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<link href="css/mystyle.css" rel="stylesheet" type="text/css"></link> 
+	<link href="css/jquery-ui.css" rel="stylesheet" type="text/css"></link>
+	<title>Create Group & Add Users</title>
+	
+	<header>
+	<h1>
+		<img src = "images/movieDecider.png"/>
+		<img id = "logo" src="images/logo200px.png">
+	</h1>
+	</header>
+	
+	<script type="text/javascript">
+		var numberofuser=0;
+		function displayalert(x)
+		{
+			$('div#alert').fadeIn();
+			$('div#alert').text(x);
+			setTimeout("$('div#alert').fadeOut();",1000);
+		}
+		$(document).ready(function()
+		{
+		//	$('div#first').hide();
+			$('div#second').hide();
+			$('div#fifth').hide();
+			$('div#third').hide();
+			$('div#forth').hide();
+			$('div#submit1').hide();
+			$('div#alert').hide();
+			numberofuser=localStorage.getItem('number');
+			var i;
+			for (i=1;i<=numberofuser;i++)
+			{
+				viewmodel.user.push(new user(localStorage.getItem('name'+i),localStorage.getItem('gender'+i),localStorage.getItem('age'+i)));
+			}
+			if (numberofuser==null) numberofuser=0;
+
+			$('span#number').text(numberofuser);
+
+			$('span#number').click(function()
+			{
+				$('div#first').hide();
+				$('div#forth').show();
+			});
+			$('span#continue_from_problems').click(function()
+			{
+				location.href='movie_result.html';
+			});
+			$('span#return_from_problems').click(function()
+			{
+				$('div#fifth').hide();
+				$('div#third').show();
+
+			});
+			$('span#return_from_group').click(function()
+			{
+				$('div#third').hide();
+				$('div#first').show();
+			});
+			$('span#continue_from_group').click(function()
+			{
+				$('div#third').hide();
+				$('div#fifth').show();
+				var post=$('input#location').val();
+				var baseUri = 'http://api.fandango.com';
+				var apiVersion = '1';
+				var apiKey = '8gbpkfedfeumuk357cbf4nwf';
+		    	var sharedSecret = 'XfxxUxtfqcXQqrWCE69b79rr';
+			    var seconds = Math.floor(new Date() / 1000);
+			    var paramsToEncode = apiKey + sharedSecret + seconds;
+			    var parameters='op=theatersbypostalcodesearch&postalcode='+post;
+			    var encodedParams = CryptoJS.SHA256(paramsToEncode);
+			    encodedParams.toString(CryptoJS.enc.Hex);
+			    var authorizationParameters = 'apikey='+apiKey+'&sig='+encodedParams;
+			    var requestUri = baseUri+'/v'+apiVersion+'/?'+parameters+'&'+authorizationParameters;
+			 	$.ajax({url:requestUri,dataType: 'xml',
+					success: function(data){
+					}});
+			});
+			$('div#add_user').click(function()
+			{
+				$('div#first').hide();
+				$('div#second').show();
+				$('div#submit1').show();
+				$('input').val('');
+			});
+			$('div#create_group').click(function()
+			{
+				$('div#first').hide();
+				$('div#third').show();
+			});
+			$('span#submit_profile').click(function()
+			{
+				//store();
+				if ($('input#profile_name').val()=='' || $('input#age').val()=='')
+				{
+					displayalert('Please fill in the name and age');
+					return;
+				}
+				$('div#second').hide();
+				$('div#first').show();
+				$('div#submit1').hide();
+				numberofuser++;
+				$('span#number').text(numberofuser);
+				localStorage.setItem('number',numberofuser);
+				localStorage.setItem('name'+numberofuser,$('input#profile_name').val());
+				localStorage.setItem('age'+numberofuser,$('input#profile_age').val());
+				localStorage.setItem('gender'+numberofuser,$('select#profile_gender').val());
+				viewmodel.user.push(new user($('input#profile_name').val(),$('input#profile_age').val(),$('select#profile_gender').val()));
+			});
+			$('span#return_profile').click(function()
+			{
+				$('input').val('');
+				$('div#second').hide();
+				$('div#first').show();
+				$('div#submit1').hide();
+			});
+			$('span#return_from_user').click(function()
+			{
+				$('div#forth').hide();
+				$('div#first').show();
+			});
+			$('span#clearstat').click(function()
+			{
+				localStorage.clear();
+				var i;
+				viewmodel.user.removeAll();
+				numberofuser=0;
+				localStorage.setItem('number',0);
+				$('span#number').text(0);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id='submit1'>
+		<span id='submit_profile'>Submit</span>
+		<span id='return_profile'>Return</span>
+	</div>
+	<div class='page' id='first'>
+		<div id='add_user'></div>
+		<div id='create_group'></div>
+		<div id='statis' style='color:black'>Number of people in group:  <span id='number' style='color:black'>0	</span></div>
+	</div>
+	<div class='page' id='second'>
+		<div class='title'>Profile</div>
+		<div id='profile_name' class='profile'>Name:&nbsp;&nbsp;&nbsp;
+			<input id='profile_name' size='12'/>
+		</div>
+		<div id='gender' class='profile'>Gender:&nbsp;
+			<select id='profile_gender'>
+				<option>Male</option>
+				<option>Female</option>
+			</select>
+		</div>
+		<div id='age' class='profile'>Age:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id='profile_age' size='10'/>
+		</div>
+	</div>
+	<div class='page' id='third'>
+		<div class='clearfloat'>
+			<div>Chosen users</div>
+			<div data-bind='foreach:user1'>
+				<div class='tile1' data-bind='click:$root.remove'>
+					<div id='eee'>Name&nbsp;&nbsp;:<span data-bind="text:username"></span></div>
+					<div id='eee'>Age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span data-bind="text:age"></span></div>
+					<div id='eee'>Gender:<span data-bind="text:gender"></span></div>
+					<span id='rrr'>&#xe6fe;</span>
+				</div>
+			</div>
+		</div>
+		<div class='clearfloat'>
+			<div>Users</div>
+			<div data-bind='foreach:user'>
+				<div class='tile2' data-bind='click:$root.add'>
+					<div id='eee'>Name&nbsp;&nbsp;:<span data-bind="text:username"></span></div>
+					<div id='eee'>Age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span data-bind="text:age"></span></div>
+					<div id='eee'>Gender:<span data-bind="text:gender"></span></div>
+					<span id='rrr'>&#xe702;</span>
+				</div>
+			</div>
+		</div>
+		<div id='location' style='margin:40px'>
+			Postal Code:
+			<input id='location'/>
+		</div>
+		<div id='submit3'>
+			<span id='return_from_group'>Return</span> 
+			<span id='continue_from_group'>Continue</span>
+		</div>
+	</div>
+	<div class='page' id='forth'>
+		<table border="4" width="600px" align="middle">
+			<thead>
+				<tr>
+					<th>User Name</th>
+					<th>Gender</th>
+					<th>Age</th>
+				</tr>
+			</thead>
+			<tbody data-bind='foreach:user'align="middle">
+				<tr>
+					<td data-bind='text:username'></td>
+					<td data-bind='text:gender'></td>
+					<td data-bind='text:age'></td>
+				</tr>
+			</tbody>
+		</table>
+		<div id='submit2'>
+			<span id='return_from_user'>Return</span> 
+			<span id='clearstat'>Clear</span>
+		</div>
+	</div>
+	<div class='page' id='fifth'>
+		<div class='problems' data-bind='foreach:user1'>
+			<div>
+				<div>Question for <span data-bind='text:username'></span>:</div>
+				<div>Choose the genre you want to watch:
+				</div>
+				<div>
+					<select id='problem1'>
+						<option>Action</option>
+						<option>Comedy</option>
+						<option>Fantasy/Sci fi</option>
+						<option>Historical/documentary</option>
+						<option>Horror</option>
+						<option>Romance</option>
+						<option>Animated</option>
+					</select>
+				</div>
+				<div>Enter in an actor/actress you like:
+				</div>
+				<div>
+					<input id='problem2' size='20'>
+				</div>
+				<div>Choose the genre you would not want to watch:
+				</div>
+				<div>
+					<select id='problem3'>
+						<option>Action</option>
+						<option>Comedy</option>
+						<option>Fantasy/Sci fi</option>
+						<option>Historical/documentary</option>
+						<option>Horror</option>
+						<option>Romance</option>
+						<option>Animated</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div id='submit3'>
+			<span id='continue_from_problems'>Continue</span>
+			<span id='return_from_problems'>Back</span>
+		</div>
+	</div>
+	<div id='alert'></div>
+
+</body>
+<script type="text/javascript">
+function user(username,gender,age)
+{
+	var self=this;
+	self.username=ko.observable(username)
+	self.gender=ko.observable(gender);
+	self.age=ko.observable(age);
+}
+function userViewModel()
+{
+	var self=this;
+	self.user=ko.observableArray([]);
+	self.user1=ko.observableArray([]);
+	self.add=function()
+	{
+		if (self.user1.indexOf(this)<0) self.user1.push(this);
+	};
+	self.remove=function()
+	{
+		self.user1.remove(this);
+	};
+}
+ko.applyBindings((viewmodel=new userViewModel()));
+</script>
